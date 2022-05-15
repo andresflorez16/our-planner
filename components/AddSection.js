@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import LogoAdd from './LogoAdd'
 
-const AddSection = () => {
-  const AddDiv = styled.div`
+const AddDiv = styled.div`
   width: 25%;
   height: 25%;
   background-color: #fff6;
@@ -14,7 +13,8 @@ const AddSection = () => {
     height: 30%;
   }
   margin: 10px;
-  `
+`
+const AddSection = () => {
   return(
     <AddDiv>
       <LogoAdd />

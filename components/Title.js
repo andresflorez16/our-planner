@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import Logo from './Logo'
 
-const Title = () => {
-  const ContainerTitleDiv = styled.div`
+const ContainerTitleDiv = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,7 +40,8 @@ const Title = () => {
         font-size: 1.5em;
       }
     }
-  `
+`
+const Title = () => {
   return(
     <ContainerTitleDiv>
       <TitleDiv>

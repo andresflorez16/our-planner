@@ -2,8 +2,7 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const LogoAdd = () => {
-  const ContainerLogo = styled.div`
+const ContainerLogo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +14,8 @@ const LogoAdd = () => {
     transition: transform .7s ease;
     transform: rotate(10deg);
   }
-  `
+`
+const LogoAdd = () => {
   return(
     <Link href={'/test'}>
       <ContainerLogo>

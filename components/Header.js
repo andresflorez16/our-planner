@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import Title from './Title'
 
-const Header = () => {
-  const HeaderDiv = styled.div`
+const HeaderDiv = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +9,8 @@ const Header = () => {
     height: 15vh;
     width: 100%;
     box-shadow: 0 5px 10px #fff9;
-  `
+`
+const Header = () => {
   return(
     <HeaderDiv>
       <Title />

@@ -29,7 +29,9 @@ const userInfo = (credential) => {
 
 export const userOnAuth = (onChange) => {
   return onAuthStateChanged(auth, (credential) => {
-    const normalizeUser = userInfo(credential)
+    const normalizeUser = credential
+      ? userInfo(credential)
+      : null
     onChange(normalizeUser)
   })
 } 

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { login, userOnAuth } from '../firebase/client'
+import SessionMethods from './SessionMethods'
 import styled from 'styled-components'
 import ButtonLogin from './ButtonLogin'
 
 const MainDiv = styled.div`
+
   text-align: center;
-  font-family: Jetbrains Mono;
   h1 {
   text-align: left;
   padding: 10px;
@@ -53,6 +54,7 @@ export default function Main() {
       {
         user && user.userName && <div><img src={user.photoUrl} /><span>{user.userName}</span></div>
       }
+      <SessionMethods />
     </MainDiv>
   )
 }

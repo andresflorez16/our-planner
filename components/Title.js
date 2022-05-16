@@ -47,7 +47,7 @@ const Title = () => {
       <TitleDiv>
         <TitleH1>Our Planner...</TitleH1>
       </TitleDiv>
-      <Logo></Logo>
+      <Logo />
     </ContainerTitleDiv>
   )
 }

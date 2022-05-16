@@ -1,19 +1,15 @@
 import Layout from '../components/Layout'
 import Content from '../components/Content'
+import Main from '../components/Main'
 import AddSection from '../components/AddSection'
 
-export default function Home({ pokemons }) {
+export default function Home() {
   return (
     <Layout>
       <Content>
-        <AddSection />
+        <Main />
       </Content>
     </Layout>
   )
 }
 
-export const getStaticProps = async () => {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=150')
-  const data = await response.json()
-  return { props: { pokemons: data.results } }
-}

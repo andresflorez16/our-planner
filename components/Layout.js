@@ -5,7 +5,7 @@ const LayoutDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 85%;
+  height: 100%;
 `
 const Layout = (props) => {
   return(

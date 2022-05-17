@@ -3,7 +3,7 @@ import Content from 'components/Content'
 import Layout from 'components/Layout'
 import ButtonBack from 'components/ButtonBack'
 
-const LoginDiv = styled.div`
+const SessionDiv = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
@@ -55,25 +55,30 @@ button {
   &:hover {
     opacity: .7;
   }
-
 }
 
 `
-
-export default function Login() {
+export default function SessionMethod({ action }) {
+  let typeSession = ''
+  if(!action) {
+    typeSession = ''
+    return <div>404</div>
+  } 
+  if(action === 'login') typeSession = 'Iniciar sesión'
+  else typeSession = 'Crear cuenta'
   return(
     <Layout>
       <Content>
         <ButtonBack backTo='/' />
-        <LoginDiv>
+        <SessionDiv>
           <form>
               <label>Nombre de usuario</label>
               <input type='text' placeholder='Nombre de usuario' />
               <label>Contraseña</label>
               <input type='password' placeholder='Contraseña' />
-            <button type='submit'>Iniciar sesión</button>
+            <button type='submit'>{typeSession}</button>
           </form>
-        </LoginDiv>
+        </SessionDiv>
       </Content>
     </Layout>
   )

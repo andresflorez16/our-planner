@@ -3,32 +3,40 @@ import Link from 'next/link'
 
 const ButtonDiv = styled.div`
 button {
- position: absolute;
- top: 4em;
- left: 6em;
- display: flex;
- font-family: 'Jetbrains Mono', monospace;
- height: 3em;
- color: #fff;
- width: 100px;
- align-items: center;
- justify-content: center;
- background-color: #111112;
- border-radius: 10px;
- letter-spacing: 1px;
- transition: all 0.2s linear;
- cursor: pointer;
- border: none;
- @media (max-width: 950px) {
-  left: 4em;
-  top: 3em;
- }
- @media (max-width: 610px) {
-  left: 3em;
- }
- @media (max-width: 390px) {
-  left: 2em;
- }
+  position: absolute;
+  top: 4em;
+  left: 7em;
+  display: flex;
+  font-family: 'Jetbrains Mono', monospace;
+  height: 3em;
+  color: #fff;
+  width: 100px;
+  align-items: center;
+  justify-content: center;
+  background-color: #111112;
+  border-radius: 10px;
+  letter-spacing: 1px;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  border: none;
+  @media (max-width: 2300px) {
+    left: 9em;
+    top: 6em;
+  }
+  @media (max-width: 1300px) {
+    left: 6em;
+    top: 5em;
+  }
+  @media (max-width: 950px) {
+    left: 4em;
+    top: 5em;
+  }
+  @media (max-width: 610px) {
+    left: 3em;
+  }
+  @media (max-width: 390px) {
+    left: 2em;
+  }
 
 }
 

@@ -1,11 +1,12 @@
+import Layout from 'components/Layout'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
 
   return (
-    <div style={{height:'100vh'}}>
+    <Layout >
       <Component {...pageProps} />
-    </div>
+    </Layout>
   )
 }
 

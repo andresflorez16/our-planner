@@ -14,7 +14,6 @@ const ContainerTitleDiv = styled.div`
     box-shadow: 5px 5px 5px #3339
   `
   const TitleDiv = styled.div`
-    @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
     margin: auto;
   `
   const TitleH1 = styled.h1`
@@ -22,7 +21,6 @@ const ContainerTitleDiv = styled.div`
     letter-spacing: 2px;
     text-align: center;
     font-weight: bold;
-    font-style: italic;
     font-size: 3em;
     padding: 0;
     margin: 0;
@@ -47,7 +45,6 @@ const Title = () => {
       <TitleDiv>
         <TitleH1>Our Planner...</TitleH1>
       </TitleDiv>
-      <Logo />
     </ContainerTitleDiv>
   )
 }

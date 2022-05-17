@@ -67,19 +67,17 @@ export default function SessionMethod({ action }) {
   if(action === 'login') typeSession = 'Iniciar sesión'
   else typeSession = 'Crear cuenta'
   return(
-    <Layout>
-      <Content>
-        <ButtonBack backTo='/' />
-        <SessionDiv>
-          <form>
-              <label>Nombre de usuario</label>
-              <input type='text' placeholder='Nombre de usuario' />
-              <label>Contraseña</label>
-              <input type='password' placeholder='Contraseña' />
-            <button type='submit'>{typeSession}</button>
-          </form>
-        </SessionDiv>
-      </Content>
-    </Layout>
+    <Content>
+      <ButtonBack backTo='/' />
+      <SessionDiv>
+        <form>
+            <label>Nombre de usuario</label>
+            <input type='text' placeholder='Nombre de usuario' />
+            <label>Contraseña</label>
+            <input type='password' placeholder='Contraseña' />
+          <button type='submit'>{typeSession}</button>
+        </form>
+      </SessionDiv>
+    </Content>
   )
 }

@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
-import { login, userOnAuth } from '../firebase/client'
+import { useEffect } from 'react'
+import { login } from '../firebase/client'
+import useUser, { USER_STATES } from 'hooks/useUser'
+import { useRouter } from 'next/router'
 import SessionMethods from './SessionMethods'
 import styled from 'styled-components'
 import ButtonLogin from './ButtonLogin'
 
 const MainDiv = styled.div`
-
   text-align: center;
   h1 {
   text-align: left;
@@ -31,16 +32,15 @@ const MainDiv = styled.div`
 `
 
 export default function Main() {
-  const [user, setUser] = useState(undefined)
+  const user = useUser()
+  const router = useRouter()
+
   useEffect(() => {
-    userOnAuth(setUser)
-  }, [])
+    user && router.replace('/feed')
+  }, [user])
 
   const handleClick = () => {
     login()
-      .then(user => {
-        setUser(user)
-      })
       .catch(err => console.log(err))
   }
 
@@ -49,10 +49,10 @@ export default function Main() {
       <h1>Our Planner</h1>
       <h2>Lleva de forma organizada tus planes, actividades, hobbies, ideas y sueños...</h2>
       {
-        user === null && <ButtonLogin onClick={handleClick} />
+        user === USER_STATES.NOT_LOGGED && <ButtonLogin onClick={handleClick} />
       }
       {
-        user && user.userName && <div><img src={user.photoUrl} /><span>{user.userName}</span></div>
+        user === USER_STATES.NOT_KNOWN && <div>Loading...</div>
       }
       <SessionMethods />
     </MainDiv>

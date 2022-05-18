@@ -7,7 +7,7 @@ const ContentDiv = styled.div`
   justify-content: center;
   align-items: center;
   width: 90%;
-  height: ${size => size === 'normal' ? '90%' : '60%'};
+  height: ${props => props.size === 'normal' ? '90%' : '60%'};
   border-radius: 10px;
   box-shadow: 2px 5px 5px #fff;
 `
@@ -15,7 +15,7 @@ const ContentDiv = styled.div`
 const Content = (props) => {
   const size = props.size
   return(
-    <ContentDiv>{props.children}</ContentDiv>
+    <ContentDiv size={size}>{props.children}</ContentDiv>
   )
 }
 

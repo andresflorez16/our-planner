@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import SessionMethods from './SessionMethods'
 import styled from 'styled-components'
 import ButtonLogin from './ButtonLogin'
+import Spinner from 'components/Spinner'
 
 const MainDiv = styled.div`
   text-align: center;
@@ -52,7 +53,7 @@ export default function Main() {
         user === USER_STATES.NOT_LOGGED && <ButtonLogin onClick={handleClick} />
       }
       {
-        user === USER_STATES.NOT_KNOWN && <div>Loading...</div>
+        user === USER_STATES.NOT_KNOWN && <Spinner />
       }
       <SessionMethods />
     </MainDiv>

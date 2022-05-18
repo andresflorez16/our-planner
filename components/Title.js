@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import Logo from './Logo'
 
 const ContainerTitleDiv = styled.div`
     display: flex;
@@ -32,8 +31,14 @@ const ContainerTitleDiv = styled.div`
         font-size: 2em;
       }
     }
-    @media (max-width: 360px) {
+    @media (max-width: 440px) {
       font-size: 1em;
+      &:hover {
+        font-size: 2em;
+      }
+    }
+    @media (max-width: 360px) {
+      font-size: .8em;
       &:hover {
         font-size: 1.5em;
       }

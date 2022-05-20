@@ -1,4 +1,5 @@
-import { initializeApp, getApps } from 'firebase/app'
+import { initializeApp } from 'firebase/app'
+import { getFirestore, doc, collection, setDoc, Timestamp } from 'firebase/firestore'
 import {
   signInWithPopup,
   getAuth,
@@ -15,8 +16,8 @@ const firebaseConfig = {
   appId: "1:588064143347:web:875a2d461b0e01f0884486"
 };
 
-initializeApp(firebaseConfig)
-
+const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 const auth = getAuth()
 
 const userInfo = (credential) => {
@@ -43,3 +44,6 @@ export const login = () => {
     .catch(err => console.log(err))
 }
 
+export const addUser = (user) => {
+  return collection('users').setDoc({ ...user, createAt: Timestamp.formDate(new Date()) })
+}

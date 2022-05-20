@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import Content from 'components/Content'
-import Layout from 'components/Layout'
 import ButtonBack from 'components/ButtonBack'
 
 const SessionDiv = styled.div`
@@ -57,25 +56,40 @@ button {
   }
 }
 
+.inputFile {
+  padding: 0 5px;
+}
+
 `
 export default function SessionMethod({ action }) {
   let typeSession = ''
+
   if(!action) {
     typeSession = ''
     return <div>404</div>
   } 
+
   if(action === 'login') typeSession = 'Iniciar sesión'
   else typeSession = 'Crear cuenta'
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const data = Object.fromEntries(new FormData(e.target))
+    console.log(data)
+  }
+  
   return(
     <Content>
       <ButtonBack backTo='/' />
       <SessionDiv>
-        <form>
+        <form onSubmit={handleSubmit}>
             <label>Nombre de usuario</label>
-            <input type='text' placeholder='Nombre de usuario' />
+            <input type='text' placeholder='Nombre de usuario' name='userName' />
             <label>Contraseña</label>
-            <input type='password' placeholder='Contraseña' />
-          <button type='submit'>{typeSession}</button>
+            <input type='password' placeholder='Contraseña' name='password' />
+            <label>Imagen</label>
+            <input className='inputFile' type='file' name='image' />
+          <button >{typeSession}</button>
         </form>
       </SessionDiv>
     </Content>

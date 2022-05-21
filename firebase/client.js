@@ -4,7 +4,8 @@ import {
   signInWithPopup,
   getAuth,
   GoogleAuthProvider,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -41,6 +42,12 @@ export const login = () => {
   const gmailProvider = new GoogleAuthProvider
   return signInWithPopup(auth, gmailProvider)
     .then(credential => userInfo(credential.user))
+    .catch(err => console.log(err))
+}
+
+export const userSignOut = () => {
+  return signOut(auth)
+    .then(() => console.log('signOut'))
     .catch(err => console.log(err))
 }
 

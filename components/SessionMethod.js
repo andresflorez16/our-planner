@@ -38,6 +38,7 @@ input {
   border-radius: 10px;
   font-size: 1em;
   font-family: 'Jetbrains Mono', monospace;
+  outline: none;
 }
 button {
   border: none;
@@ -50,7 +51,7 @@ button {
   width: 100%;
   margin-top: 20px;
   font-family: 'Jetbrains Mono', monospace;
-
+  outline: none;
   &:hover {
     opacity: .7;
   }

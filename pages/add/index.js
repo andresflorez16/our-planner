@@ -97,34 +97,19 @@ form {
   }
 }
 `
-const AddNotes = () => {
-  const [note, setNote] = useState([0])
-
-  const addNoteClick = (e) => {
-    e.preventDefault()
-    setNote([...note, note.pop() + 1])
-  }
-  const deleteNoteClick = (e) => {
-    e.preventDefault()
-    note.pop()
-    setNote([ ...note ])
-  }
-  const handleChange = (e) => {
-    console.log(e.target.value)
-  }
-
+const AddNotes = ({ addNoteClick, deleteNoteClick, onChangeNote, notes }) => {
   return(
     <>
       <div className='sectionNoteContainer' >
         {
-          note.map(el => 
-              <input className="sectionNote" type="text" placeholder="Nota, links, observaciones..." key={el} name="sectionNote" onChange={handleChange}/>
+          notes.map(el => 
+              <input className="sectionNote" type="text" placeholder="Nota, links, observaciones..." key={el} name={`sectionNote${el}`} onChange={onChangeNote}/>
           )
         }
       </div>
       <button className='addNote' onClick={addNoteClick}>Añadir más</button>
       {
-        note.length > 1
+        notes.length > 1
           ? <button className='deleteNote' onClick={deleteNoteClick}>Eliminar</button>
           : null
       }
@@ -133,10 +118,29 @@ const AddNotes = () => {
 }
 
 export default function AddSection() {
+  const [note, setNote] = useState([0])
+  const [noteTest, setNoteTest] = useState([])
+
+  const addNoteClick = (e) => {
+    e.preventDefault()
+    console.log(e.target)
+    setNote([...note, note.pop() + 1])
+  }
+  const deleteNoteClick = (e) => {
+    e.preventDefault()
+    note.pop()
+    setNote([ ...note ])
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target))
     console.log(data)
+  }
+
+  const onChangeNote = (e) => {
+    e.preventDefault()
+    setNoteTest(noteTest.concat(e.target.value))
   }
 
   return(
@@ -153,7 +157,7 @@ export default function AddSection() {
           </div>
           <div>
             <label><strong>Añade algo a tu sección:</strong></label>
-            <AddNotes />
+            <AddNotes addNoteClick={addNoteClick} deleteNoteClick={deleteNoteClick} notes={note} onChangeNote={onChangeNote} />
           </div>
           <button type='submit'>Guardar</button>
         </form>

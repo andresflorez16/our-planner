@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Content from 'components/Content'
 import NavFooter from 'components/NavFooter'
 import { useState } from 'react'
+import { generate } from 'shortid'
 
 const AddDiv = styled.div`
 display: flex;
@@ -97,20 +98,20 @@ form {
   }
 }
 `
-const AddNotes = ({ addNoteClick, deleteNoteClick, onChangeNote, notes }) => {
+const AddNotes = ({ deleteNote, onClick, onChangeNote, notes }) => {
   return(
     <>
       <div className='sectionNoteContainer' >
         {
           notes.map(el => 
-              <input className="sectionNote" type="text" placeholder="Nota, links, observaciones..." key={el} name={`sectionNote${el}`} onChange={onChangeNote}/>
+            <input className="sectionNote" type="text" placeholder="Nota, links, observaciones..." key={el.id} onChange={e => onChangeNote(e, el)}/>
           )
         }
       </div>
-      <button className='addNote' onClick={addNoteClick}>Añadir más</button>
+      <button className='addNote' onClick={onClick}>Añadir más</button>
       {
         notes.length > 1
-          ? <button className='deleteNote' onClick={deleteNoteClick}>Eliminar</button>
+          ? <button className='deleteNote' onClick={deleteNote} >Eliminar</button>
           : null
       }
     </>
@@ -118,29 +119,49 @@ const AddNotes = ({ addNoteClick, deleteNoteClick, onChangeNote, notes }) => {
 }
 
 export default function AddSection() {
-  const [note, setNote] = useState([0])
-  const [noteTest, setNoteTest] = useState([])
-
-  const addNoteClick = (e) => {
-    e.preventDefault()
-    console.log(e.target)
-    setNote([...note, note.pop() + 1])
-  }
-  const deleteNoteClick = (e) => {
-    e.preventDefault()
-    note.pop()
-    setNote([ ...note ])
-  }
+  const [note, setNote] = useState([{ id: generate() }])
+  const [isNote, setIsNote] = useState(true)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const data = Object.fromEntries(new FormData(e.target))
+    const formData = Object.fromEntries(new FormData(e.target))
+    const data = {
+      ...formData,
+      notes: note
+    }
     console.log(data)
   }
 
-  const onChangeNote = (e) => {
+  const onChangeNote = (e, noteIterable) => {
     e.preventDefault()
-    setNoteTest(noteTest.concat(e.target.value))
+    const content = e.target.value
+    setNote(currentNote =>
+      currentNote.map(el => 
+        el.id === noteIterable.id
+          ? {
+            ...el,
+            content
+          }
+          : el
+      ) 
+    )
+    setIsNote(content.length > 0 ? false : true)
+  }
+
+  const addNewNote = () => {
+    setNote(currentNote => {
+      return [
+        ...currentNote,
+        {
+          id: generate(),
+        }
+      ]
+    })
+  }
+
+  const deleteNote = () => {
+    const noteToDelete = note.pop()
+    setNote(currentNote => currentNote.filter(el => el.id != noteToDelete.id))
   }
 
   return(
@@ -157,9 +178,9 @@ export default function AddSection() {
           </div>
           <div>
             <label><strong>Añade algo a tu sección:</strong></label>
-            <AddNotes addNoteClick={addNoteClick} deleteNoteClick={deleteNoteClick} notes={note} onChangeNote={onChangeNote} />
+            <AddNotes  notes={note} onChangeNote={onChangeNote} onClick={addNewNote} deleteNote={deleteNote} />
           </div>
-          <button type='submit'>Guardar</button>
+          <button type='submit' disabled={isNote}>Guardar</button>
         </form>
       </AddDiv>
       <NavFooter />

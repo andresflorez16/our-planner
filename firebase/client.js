@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, collection, setDoc, Timestamp } from 'firebase/firestore'
+import { getFirestore, addDoc, collection } from 'firebase/firestore'
 import {
   signInWithPopup,
   getAuth,
@@ -52,5 +52,5 @@ export const userSignOut = () => {
 }
 
 export const addUser = (user) => {
-  return collection('users').setDoc({ ...user, createAt: Timestamp.formDate(new Date()) })
+  return addDoc(collection(db, 'users'), { ...user, createdAt: Date.now() })
 }

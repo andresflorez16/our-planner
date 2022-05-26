@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 import Content from 'components/Content'
 import ButtonBack from 'components/ButtonBack'
+import { addUser } from '../firebase/client'
+import Spinner from 'components/Spinner'
+import { useState } from 'react'
 
 const SessionDiv = styled.div`
 display: flex;
@@ -40,7 +43,7 @@ input {
   font-family: 'Jetbrains Mono', monospace;
   outline: none;
 }
-button {
+.btn {
   border: none;
   background-color: #111112;
   padding: 10px 25px;
@@ -62,7 +65,9 @@ button {
 }
 
 `
+
 export default function SessionMethod({ action }) {
+  const [status, setStatus] = useState(true)
   let typeSession = ''
 
   if(!action) {
@@ -76,7 +81,14 @@ export default function SessionMethod({ action }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target))
-    console.log(data)
+    addUser({ ...data, image: data.image.name })
+      .then(res => console.log(res))
+      .catch(e => console.log(e))
+  }
+
+  const handleFileChange = e => {
+    e.preventDefault()
+    setStatus(e.target ? false : true)
   }
   
   return(
@@ -92,11 +104,11 @@ export default function SessionMethod({ action }) {
             action === 'signin'
               ? <div>
                   <label>Imagen</label>
-                  <input className='inputFile' type='file' name='image' />
+                  <input className='inputFile' onChange={handleFileChange} type='file' name='image' />
                 </div>
               : null
           }
-          <button >{typeSession}</button>
+          <button className='btn' disabled={true} >{typeSession}</button>
         </form>
       </SessionDiv>
     </Content>

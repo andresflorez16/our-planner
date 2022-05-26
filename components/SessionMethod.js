@@ -84,12 +84,18 @@ export default function SessionMethod({ action }) {
       <ButtonBack backTo='/' />
       <SessionDiv>
         <form onSubmit={handleSubmit}>
-            <label>Nombre de usuario</label>
-            <input type='text' placeholder='Nombre de usuario' name='userName' />
-            <label>Contraseña</label>
-            <input type='password' placeholder='Contraseña' name='password' />
-            <label>Imagen</label>
-            <input className='inputFile' type='file' name='image' />
+          <label>Nombre de usuario</label>
+          <input type='text' placeholder='Nombre de usuario' name='userName' />
+          <label>Contraseña</label>
+          <input type='password' placeholder='Contraseña' name='password' />
+          {
+            action === 'signin'
+              ? <div>
+                  <label>Imagen</label>
+                  <input className='inputFile' type='file' name='image' />
+                </div>
+              : null
+          }
           <button >{typeSession}</button>
         </form>
       </SessionDiv>

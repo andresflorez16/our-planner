@@ -14,6 +14,21 @@ const AddDiv = styled.div`
   }
   margin: auto;
   cursor: pointer;
+  span {
+    display: block;
+    margin: auto;
+    font-weight: bold;
+  }
+  @media (max-width: 650px) {
+    span {
+      font-size: 11px;
+    }
+  }
+  @media (max-width: 400px) {
+    span {
+      display: none;
+    }
+  }
 `
 const ButtonAddSection = () => {
   return(

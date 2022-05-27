@@ -61,3 +61,7 @@ export const addUser = (user) => {
 export const loginEmailPassword = (user) => {
   return signInWithEmailAndPassword(auth, user.email, user.password)
 }
+
+export const addSection = (section) => {
+  return addDoc(collection(db, 'section'), { name: section.sectionName, description: section.sectionDescription, notes: section.notes })
+}

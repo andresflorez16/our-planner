@@ -3,21 +3,28 @@ import Content from 'components/Content'
 import NavFooter from 'components/NavFooter'
 import { useState } from 'react'
 import { generate } from 'shortid'
+import { addSection } from '../../firebase/client'
 
 const AddDiv = styled.div`
 display: flex;
 align-items: center;
-height: 90%;
+height: 100%;
 width: 90%;
 form {
   display: flex;
   align-items: center;
-  height: 100%;
+  height: 90%;
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
   div {
-    width: 90%;
+    width: 100%;
+    padding: 5px 0;
+    label {
+      @media (max-width: 450px) {
+        font-size: .8em;
+      }
+    }
     textarea {
       display: block;
       width: 80%;
@@ -30,9 +37,14 @@ form {
       box-shadow: 0 3px 5px #3337;
       outline: 0;
       font-size: 1em;
+      @media (max-width: 700px) {
+        font-size: .8em;
+        width: 100%;
+      }
     }
   }
 }
+
 .sectionName {
   display: block; 
   border: none;
@@ -44,6 +56,11 @@ form {
   font-family: 'Jetbrains Mono', monospace;
   box-shadow: 0 3px 5px #3337;
   outline: 0;
+  @media (max-width: 700px) {
+    font-size: .8em;
+    width: 100%;
+    padding: 5px 15px;
+  }
 }
 .sectionNoteContainer {
   display: flex;
@@ -52,20 +69,31 @@ form {
   flex-wrap: wrap;
   overflow-y: auto;
   width: 100%;
-  height: 100px;
+  height: 150px;
+  @media (max-width: 700px) {
+    height: 100px;
+  }
 }
-.sectionNote {
-  display: block; 
+
+.saveNote {
   border: none;
-  border-radius: 10px;
-  padding: 5px 25px;
+  background-color: #11a311;
+  padding: 10px 25px;
+  border-radius: 999px;
+  color: #fff;
+  width: 200px;
+  cursor: pointer;
   font-size: 1em;
-  width: 70%;
-  margin: 10px auto;
+  transition: opacity .3s ease;
   font-family: 'Jetbrains Mono', monospace;
-  box-shadow: 0 3px 5px #3337;
-  outline: 0; 
-  
+  outline: none;
+  &:hover {
+    opacity: .7;
+  }
+  @media (max-width: 450px) {
+    font-size: .8em;
+    width: 100px;
+  }
 }
 .addNote {
   border: none;
@@ -80,6 +108,9 @@ form {
   outline: none;
   &:hover {
     opacity: .7;
+  }
+  @media (max-width: 450px) {
+    font-size: .7em;
   }
 }
 .deleteNote {
@@ -96,15 +127,36 @@ form {
   &:hover {
     opacity: .7;
   }
+  @media (max-width: 450px) {
+    font-size: .7em;
+  }
 }
+
 `
-const AddNotes = ({ deleteNote, onClick, onChangeNote, notes }) => {
+const InputNote = styled.input`
+  display: block; 
+  border: ${props => props.isNote ? '2px solid red' : 'none'};
+  border-radius: 10px;
+  padding: 10px 25px;
+  font-size: 1em;
+  width: 80%;
+  margin: 10px auto;
+  font-family: 'Jetbrains Mono', monospace;
+  box-shadow: 0 3px 5px #3337;
+  outline: 0;
+  @media (max-width: 700px) {
+    font-size: .8em;
+    width: 100%;
+    padding: 5px 15px;
+  }
+`
+const AddNotes = ({ deleteNote, onClick, onChangeNote, notes, isNote }) => {
   return(
     <>
-      <div className='sectionNoteContainer' >
+      <div className="sectionNoteContainer">
         {
           notes.map(el => 
-            <input className="sectionNote" type="text" placeholder="Nota, links, observaciones..." key={el.id} onChange={e => onChangeNote(e, el)}/>
+            <InputNote className="sectionNote" isNote={isNote} type="text" placeholder="Nota, links, observaciones..." key={el.id} onChange={e => onChangeNote(e, el)} required/>
           )
         }
       </div>
@@ -120,16 +172,20 @@ const AddNotes = ({ deleteNote, onClick, onChangeNote, notes }) => {
 
 export default function AddSection() {
   const [note, setNote] = useState([{ id: generate() }])
-  const [isNote, setIsNote] = useState(true)
+  const [isNote, setIsNote] = useState()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = Object.fromEntries(new FormData(e.target))
-    const data = {
-      ...formData,
-      notes: note
-    }
-    console.log(data)
+    if (formData.sectionName && formData.sectionDescription && note[0].content) {
+      const data = {
+        ...formData,
+        notes: note
+      }
+      addSection(data)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    } else setIsNote(true)
   }
 
   const onChangeNote = (e, noteIterable) => {
@@ -165,22 +221,22 @@ export default function AddSection() {
   }
 
   return(
-    <Content size={'reduced'}>
+    <Content size={'alternative'}>
       <AddDiv>
         <form onSubmit={handleSubmit}>
           <div>
             <label><strong>Dale un nombre a tu sección:</strong></label>
-            <input className="sectionName" name='sectionName' type="text" placeholder="Nombre de tu sección" />
+            <input className="sectionName" name='sectionName' type="text" placeholder="Nombre de tu sección" required />
           </div>
           <div>
             <label><strong>Da una descripción a tu sección:</strong></label>
-            <textarea placeholder="Descripción" name='sectionDescription'></textarea>
+            <textarea placeholder="Descripción" name='sectionDescription' required></textarea>
           </div>
           <div>
             <label><strong>Añade algo a tu sección:</strong></label>
-            <AddNotes  notes={note} onChangeNote={onChangeNote} onClick={addNewNote} deleteNote={deleteNote} />
+            <AddNotes  notes={note} onChangeNote={onChangeNote} onClick={addNewNote} deleteNote={deleteNote} isNote={isNote}/>
           </div>
-          <button type='submit' disabled={isNote}>Guardar</button>
+          <button className="saveNote" type='submit'>Guardar</button>
         </form>
       </AddDiv>
       <NavFooter />

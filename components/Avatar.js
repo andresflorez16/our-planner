@@ -12,6 +12,8 @@ padding-right: 5px;
 strong {
   display: inline-block;
   padding-left: 10px;
+  color: #fff;
+  text-shadow: 1px 2px 1px #111;
 }
 @media (max-width: 1000px) {
   padding-left: 5px;

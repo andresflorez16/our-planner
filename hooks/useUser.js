@@ -16,7 +16,9 @@ export default function useUser() {
   }, [])
 
   useEffect(() => {
-    user === USER_STATES.NOT_LOGGED && router.push('/')
+    if (router.asPath === '/feed') {
+      user === USER_STATES.NOT_LOGGED && router.push('/')
+    }
   }, [user])
 
   return user

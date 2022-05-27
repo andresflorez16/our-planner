@@ -5,6 +5,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   signOut
 } from 'firebase/auth'
 
@@ -23,14 +25,15 @@ const auth = getAuth()
 
 const userInfo = (credential) => {
   return {
-    userName: credential.displayName,
+    userName: credential.displayName ? credential.displayName : credential.email.split('@')[0],
     email: credential.email,
-    photoUrl: credential.photoURL
+    photoUrl: credential.photoURL ? credential.photoURL : '/user-default.png'
   }
 }
 
 export const userOnAuth = (onChange) => {
   return onAuthStateChanged(auth, (credential) => {
+    console.log(credential)
     const normalizeUser = credential
       ? userInfo(credential)
       : null
@@ -52,5 +55,9 @@ export const userSignOut = () => {
 }
 
 export const addUser = (user) => {
-  return addDoc(collection(db, 'users'), { ...user, createdAt: Date.now() })
+  return createUserWithEmailAndPassword(auth, user.email, user.password)
+}
+
+export const loginEmailPassword = (user) => {
+  return signInWithEmailAndPassword(auth, user.email, user.password)
 }

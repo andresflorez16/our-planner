@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 import Content from 'components/Content'
 import ButtonBack from 'components/ButtonBack'
-import { addUser } from '../firebase/client'
+import { addUser, loginEmailPassword } from '../firebase/client'
 import Spinner from 'components/Spinner'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import useUser, { USER_STATES } from 'hooks/useUser'
+import { useRouter } from 'next/router'
 
 const SessionDiv = styled.div`
 display: flex;
@@ -68,6 +70,16 @@ input {
 
 export default function SessionMethod({ action }) {
   const [status, setStatus] = useState(true)
+  const [errorAuth, setErrorAuth] = useState('')
+  const user = useUser()
+  const router = useRouter()
+
+  useEffect(() => {
+    user && router.replace('/feed')
+  }, [user])
+
+  const form = useRef(null)
+
   let typeSession = ''
 
   if(!action) {
@@ -81,34 +93,36 @@ export default function SessionMethod({ action }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     const data = Object.fromEntries(new FormData(e.target))
-    addUser({ ...data, image: data.image.name })
-      .then(res => console.log(res))
-      .catch(e => console.log(e))
+    action === 'login'
+      ? loginEmailPassword(data)
+      .then(res => {
+        console.log(res)
+        form.current.reset()
+        setErrorAuth('')
+      })
+      .catch(e => setErrorAuth(e.code))
+      : addUser(data)
+      .then(res => {
+        console.log('signIning')
+        form.current.reset()
+        setErrorAuth('')
+      })
+      .catch(e => setErrorAuth(e.code))
   }
 
-  const handleFileChange = e => {
-    e.preventDefault()
-    setStatus(e.target ? false : true)
-  }
-  
   return(
     <Content>
       <ButtonBack backTo='/' />
       <SessionDiv>
-        <form onSubmit={handleSubmit}>
-          <label>Nombre de usuario</label>
-          <input type='text' placeholder='Nombre de usuario' name='userName' />
+        <form ref={form} onSubmit={handleSubmit}>
+          <label>Correo electrónico</label>
+          <input type='email' placeholder='Correo electrónico' name='email' required />
           <label>Contraseña</label>
-          <input type='password' placeholder='Contraseña' name='password' />
+          <input type='password' placeholder='Contraseña' name='password' required />
           {
-            action === 'signin'
-              ? <div>
-                  <label>Imagen</label>
-                  <input className='inputFile' onChange={handleFileChange} type='file' name='image' />
-                </div>
-              : null
+            errorAuth ? <span style={{color: 'red'}}>{ errorAuth }</span> : null 
           }
-          <button className='btn' disabled={true} >{typeSession}</button>
+          <button className='btn' >{typeSession}</button>
         </form>
       </SessionDiv>
     </Content>

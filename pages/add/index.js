@@ -4,6 +4,7 @@ import NavFooter from 'components/NavFooter'
 import { useState } from 'react'
 import { generate } from 'shortid'
 import { addSection } from '../../firebase/client'
+import useUser from 'hooks/useUser'
 
 const AddDiv = styled.div`
 display: flex;
@@ -174,12 +175,15 @@ export default function AddSection() {
   const [note, setNote] = useState([{ id: generate() }])
   const [isNote, setIsNote] = useState()
 
+  const user = useUser()
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = Object.fromEntries(new FormData(e.target))
     if (formData.sectionName && formData.sectionDescription && note[0].content) {
       const data = {
         ...formData,
+        email: user.email,
         notes: note
       }
       addSection(data)
@@ -219,6 +223,7 @@ export default function AddSection() {
     const noteToDelete = note.pop()
     setNote(currentNote => currentNote.filter(el => el.id != noteToDelete.id))
   }
+
 
   return(
     <Content size={'alternative'}>

@@ -5,6 +5,7 @@ import HomeIcon from './icons/homeIcon'
 import InfoIcon from './icons/infoIcon'
 import UserIcon from './icons/userIcon'
 import SignOutIcon from './icons/signOutIcon'
+import Footer from 'components/Footer'
 
 const NavFooterDiv = styled.div`
 position: fixed;
@@ -79,8 +80,8 @@ export default function NavFooter() {
           <div onClick={userSignOut}>
             <div className="home"><span>Adiós</span> <SignOutIcon fill="#000" width={24} height={24} /></div>
           </div>
+          <Footer />
         </nav>
-        <footer>Andrés Florez&copy;</footer>
       </NavFooterDiv>
     </>
   )

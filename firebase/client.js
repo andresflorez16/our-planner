@@ -1,5 +1,12 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, addDoc, collection } from 'firebase/firestore'
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  query,
+  where,
+  getDocs
+} from 'firebase/firestore'
 import {
   signInWithPopup,
   getAuth,
@@ -33,7 +40,7 @@ const userInfo = (credential) => {
 
 export const userOnAuth = (onChange) => {
   return onAuthStateChanged(auth, (credential) => {
-    console.log(credential)
+    console.log('credentials', credential)
     const normalizeUser = credential
       ? userInfo(credential)
       : null
@@ -64,4 +71,9 @@ export const loginEmailPassword = (user) => {
 
 export const addSection = (section) => {
   return addDoc(collection(db, 'section'), { name: section.sectionName, description: section.sectionDescription, email: section.email, notes: section.notes })
+}
+
+export const getSections = (email) => {
+  const querySections = query(collection(db, 'section'), where("email", "==", email)) 
+  return getDocs(querySections)
 }

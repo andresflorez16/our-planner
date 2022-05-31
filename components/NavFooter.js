@@ -72,10 +72,14 @@ export default function NavFooter() {
             </Link>
           </div>
           <div>
-            <div className="home"><span>Sobre mí</span> <InfoIcon fill="#000" width={20} height={24}/></div>
+            <Link href={'/about'}>
+              <div className="home"><span>Sobre mí</span> <InfoIcon fill="#000" width={20} height={24}/></div>
+            </Link>
           </div>
           <div>
-            <div className="home"><span>Contáctame</span> <UserIcon fill="#000" width={24} height={24} /></div>
+            <Link href={'/contact'}>
+              <div className="home"><span>Contáctame</span> <UserIcon fill="#000" width={24} height={24} /></div>
+            </Link>
           </div>
           <div onClick={userSignOut}>
             <div className="home"><span>Adiós</span> <SignOutIcon fill="#000" width={24} height={24} /></div>
